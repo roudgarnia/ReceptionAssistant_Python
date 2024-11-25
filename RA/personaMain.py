@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from ReceptionAssistant_Python.routes import router
+from ReceptionAssistant_Python.personaroutes import router
 
 RA = FastAPI()
 

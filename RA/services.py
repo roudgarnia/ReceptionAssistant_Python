@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-from RA.models import score_model, persona_model
-from RA.utils import modifyQ, umodifyQ, calass
-from RA.database import get_db_connection
+from .models import score_model, persona_model
+from .utils import modifyQ, umodifyQ, calass
+from .database import get_db_connection
 
 
 
@@ -46,8 +46,8 @@ def fetch_history(CompanyId, OwnerCode, Vin, phone):
     df['Q28'] = df['Q28'].apply(modifyQ)
     df['Q30'] = df['Q30'].apply(modifyQ)
 
-    print(df.columns)
-    print(df)
+    #print(df.columns)
+    #print(df)
     connection.close()
     return df
 
@@ -56,12 +56,12 @@ def fetch_history(CompanyId, OwnerCode, Vin, phone):
 def fetch_previous_visit_data(phone=None, vin=None):
     """Fetch processed historical visit data based on phone or VIN."""
     connection = get_db_connection()
-    if vin == "na" and phone != 0:
+    if phone != 0:
         where_clause = f"WHERE Phone = {phone}"
     elif phone == 0 and vin != "na":
         where_clause = f"WHERE VIN = N'{vin}'"
-    elif vin != "na" and phone != 0:
-        where_clause = f"WHERE VIN = N'{vin}' AND Phone = {phone}"
+    #elif vin != "na" and phone != 0:
+    #    where_clause = f"WHERE VIN = N'{vin}' AND Phone = {phone}"
     else:
         # If both are missing, will produce empty set or defaults
         return {

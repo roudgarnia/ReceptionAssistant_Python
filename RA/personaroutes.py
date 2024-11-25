@@ -74,7 +74,6 @@ async def predict(
         AvgPreviousSatisfactionScore, CountPreviousVisits, Type_admission, cost, product_score, edraki, amalkardi, karayi, talfigh
     )
 
-    #print(final_score)
 
     #Calculate behavior analysis
     behaviorlys = process_behavior_analysis(
@@ -86,13 +85,10 @@ async def predict(
     #print(behaviorlys.shape)
 
 
+
     #Sort n prepare output
     y2 = sortfunction(behaviorlys.reshape(1, -1)).reset_index(drop=True)
-    output = {
-        'SatLevel': str(final_score),
-        str(y2.at[0, 'Q']): str(y2.at[0, 'score']) if y2.at[0, 'sort'] != 99 else "",
-        str(y2.at[1, 'Q']): str(y2.at[1, 'score']) if y2.at[1, 'sort'] != 99 else "",
-        str(y2.at[2, 'Q']): str(y2.at[2, 'score']) if y2.at[2, 'sort'] != 99 else ""
-    }
-    #print(y2)
+    output = pd.Series(y2['score'].values, index=y2['Q']).to_dict()
+    #print(filter_dic(output))
     return filter_dic(output)
+
